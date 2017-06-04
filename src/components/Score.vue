@@ -1,6 +1,6 @@
 <template>
   <div class="score">
-    Score : {{ score }}
+    {{ score ? 'Votre score : ' + score : 'Appuyez sur entrée pour démarrer' }}
   </div>
 </template>
 

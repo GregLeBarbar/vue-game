@@ -10,7 +10,7 @@
 export default {
   name: 'game',
   created: function () {
-    // this.start est une méthode 
+    // this.start est une méthode
     document.onkeydown = this.start
   },
   methods: {
@@ -24,7 +24,7 @@ export default {
     },
     start: function (event) {
       if (event.key === 'Enter') {
-        console.log('BONUS')
+        console.log('START')
       }
     }
   }
