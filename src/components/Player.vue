@@ -6,7 +6,7 @@
   C'est vous qui ajouté du HTML 
   -->
     <span v-html="welcomeMessage" v-hide></span>
-    <form v-hide>
+    <form v-hide v-on:submit.prevent="setPlayer">
       <input type="text" placeholder="Entrer votre nom" v-border:yellow />
       <button type="submit">Jouer</button>
     </form>
@@ -16,10 +16,19 @@
 <script>
 export default {
   name: 'player',
-  created: function () {
-    this.player = ''
-    this.playerClass = this.player ? 'player' : 'playerForm'
-    this.welcomeMessage = this.player ? `Bonjour <span class="player"> ${this.player}  </span> !` : 'Pas de joueur.'
+  data: function () {
+    return {
+      player: '',
+      welcomeMessage: ''
+    }
+  },
+  updated: function () {
+    this.welcomeMessage = `Bonjour <span class="player"> ${this.player}  </span> !`
+  },
+  methods: {
+    setPlayer: function (event) {
+      this.player = event.target[0].value
+    }
   },
   directives: {
     border: function (el, binding) {
