@@ -15,8 +15,12 @@ export default {
   },
   methods: {
     clickOnRound: function (event) {
-      console.log('CLICK')
-      console.log(event)
+      let element = event.target
+      let size = Math.random() * (100 - 10) + 10
+      let top = Math.random() * (60 - 5) + 5
+      let left = Math.random() * (60 - 5) + 5
+      element.style.height = element.style.width = `${size}px`
+      element.style.margin = `${top}% ${left}%`
     },
     bonus: function (event) {
       console.log('BONUS')
