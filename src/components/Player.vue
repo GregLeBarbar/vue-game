@@ -1,7 +1,11 @@
 <template>
   <!-- On est obligé d'avoir un div englobant -->
   <div>
-    <span v-hide>{{ welcomeMessage }}</span>
+  <!-- Utilisation de la directive v-html 
+  Mais attention : ne pas rendre l'ajout de HTML dynamique pour des raisons de sécurité
+  C'est vous qui ajouté du HTML 
+  -->
+    <span v-html="welcomeMessage" v-hide></span>
     <form v-hide>
       <input type="text" placeholder="Entrer votre nom" v-border:yellow />
       <button type="submit">Jouer</button>
@@ -13,9 +17,9 @@
 export default {
   name: 'player',
   created: function () {
-    this.player = 'Grégory'
+    this.player = ''
     this.playerClass = this.player ? 'player' : 'playerForm'
-    this.welcomeMessage = this.player ? 'Bonjour ' + this.player + ' !' : 'Pas de joueur.'
+    this.welcomeMessage = this.player ? `Bonjour <span class="player"> ${this.player}  </span> !` : 'Pas de joueur.'
   },
   directives: {
     border: function (el, binding) {
