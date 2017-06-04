@@ -27,7 +27,13 @@ export default {
   },
   methods: {
     setPlayer: function (event) {
-      this.player = event.target[0].value
+      let playerName = event.target[0].value
+      if (!playerName) {
+        window.alert('Merci de renseigner votre nom')
+        // pour que l'exécution s'arrête ici
+        return
+      }
+      this.player = playerName
     }
   },
   directives: {
