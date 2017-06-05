@@ -2,7 +2,7 @@
   <!-- On est obligé d'avoir un div englobant -->
   <div class="game" @click="clickOnInterface">
     <!-- j'ai remplacé la touche alt par la touche ctrl car alt ne fonctionnait pas -->
-    <span class="round" ref="round" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
+    <span class="round" :style="roundStyle" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
   </div>
 </template>
 
@@ -11,7 +11,12 @@ export default {
   name: 'game',
   data: function () {
     return {
-      click: 0
+      click: 0,
+      roundStyle: {
+        height: '50px',
+        width: '50px',
+        margin: '20% 20%'
+      }
     }
   },
   created: function () {
@@ -42,12 +47,11 @@ export default {
       }
     },
     updateRound: function () {
-      let element = this.$refs.round
       let size = Math.random() * (100 - 10) + 10
       let top = Math.random() * (60 - 5) + 5
       let left = Math.random() * (60 - 5) + 5
-      element.style.height = element.style.width = `${size}px`
-      element.style.margin = `${top}% ${left}%`
+      this.roundStyle.height = this.roundStyle.width = `${size}px`
+      this.roundStyle.margin = `${top}% ${left}%`
     }
   }
 }
@@ -64,12 +68,9 @@ export default {
 }
 
 .round {
-  width: 50px;
-  height: 50px;
   background: aliceblue;
   border-radius: 9999px;
   position: absolute;
-  margin: 20% 20%;  
 }
 
 </style>
