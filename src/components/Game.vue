@@ -6,7 +6,9 @@
       <span class="round" :style="roundStyle" :class="{bonus: bonusActivated, badColor: badColorActivated}" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
     </div>
     <div class="log">
-      <p v-for="item in collection">{{ item }}</p>
+      <p v-for="item in collection">
+        {{ item }}
+      </p>
     </div>
   </div>
 </template>
@@ -24,7 +26,7 @@ export default {
       },
       bonusActivated: false,
       badColorActivated: false,
-      collection: ['msg1', 'msg2', 'msg3']
+      collection: []
     }
   },
   created: function () {
@@ -40,18 +42,20 @@ export default {
   methods: {
     clickOnRound: function (event) {
       this.click++
+      this.collection.unshift(`BRAVO ! (${this.click})`)
     },
     bonus: function (event) {
-      console.log('BONUS')
       if (this.bonusActivated) {
-        console.log('PERFECT')
+        this.click++
+        this.collection.unshift(`PERFECT ! (${this.click}) +2`)
       } else {
-        console.log('??????')
+        this.click--
+        this.collection.unshift(`???? (${this.click}) -1`)
       }
     },
     clickOnInterface: function (event) {
-      console.log('INTERFACE')
-      console.log(event)
+      this.click--
+      this.collection.unshift(`HO NON :( (${this.click}) -1`)
     },
     start: function (event) {
       if (event.key === 'Enter') {
@@ -80,7 +84,7 @@ export default {
 }
 .log {
   width: 100%;
-  height: 50px;
+  height: 30px;
   background: #666;
   display: block;
   overflow: hidden;
