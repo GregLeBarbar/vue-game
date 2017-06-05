@@ -1,9 +1,10 @@
 <template>
   <!-- On est obligé d'avoir un div englobant -->
   <div class="content">
-    <div class="game" @click="clickOnInterface" :class="{ wait: !player }">
+    <div class="game" @click="clickOnInterface" :class="{ wait: !player || stopped }">
+      <span class="time" v-if="!stopped">{{ time }}</span>
       <!-- j'ai remplacé la touche alt par la touche ctrl car alt ne fonctionnait pas -->
-      <span v-if="player" class="round" :style="roundStyle" :class="{bonus: bonusActivated, badColor: badColorActivated}" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
+      <span v-if="player && !stopped" class="round" :style="roundStyle" :class="{bonus: bonusActivated, badColor: badColorActivated}" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
     </div>
     <div class="log">
       <p v-for="item in userLogs" v-if="item.type === 'user'">
@@ -20,6 +21,7 @@ export default {
   data: function () {
     return {
       click: 0,
+      time: 0,
       roundStyle: {
         height: '50px',
         width: '50px',
@@ -41,22 +43,38 @@ export default {
   created: function () {
     // this.start est une méthode
     document.onkeydown = this.start
-    console.log(this)
   },
   watch: {
     click: function () {
       this.updateRound()
       this.$emit('score', this.click)
+    },
+    player: function () {
+      this.stopped = false
+      this.time = 10
+
+      let self = this
+      setInterval(function () {
+        self.updateTime()
+      }, 1000)
     }
   },
   methods: {
+    updateTime: function () {
+      if (this.time === 0) {
+        this.stopped = true
+      }
+      if (!this.stopped) {
+        this.time--
+      }
+    },
     clickOnRound: function (event) {
       setTimeout(this.updateRound, 1000)
       this.updateClick(true)
       this.addLog(`BRAVO !`)
     },
     updateClick: function (increment) {
-      if (!this.player) {
+      if (!this.player || this.stopped) {
         return
       }
 
@@ -101,7 +119,7 @@ export default {
       this.roundStyle.margin = `${top}% ${left}%`
     },
     addLog: function (msg, type) {
-      if (!this.player) {
+      if (!this.player || this.stopped) {
         return
       }
 
@@ -151,6 +169,14 @@ export default {
 
 .wait {
   opacity: 0.3;
+}
+
+.time {
+  position: absolute;
+  font-size: 90pt;
+  padding-left: 30px;
+  color: darkgoldenrod;
+  opacity: 0.2;
 }
 
 </style>
