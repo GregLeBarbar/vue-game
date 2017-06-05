@@ -6,7 +6,7 @@
       <span class="round" :style="roundStyle" :class="{bonus: bonusActivated, badColor: badColorActivated}" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
     </div>
     <div class="log">
-      <p v-for="item in collection">
+      <p v-for="item in collection" v-if="item.type === 'user'">
         #{{ item.id }} - {{ item.msg }}
       </p>
     </div>
@@ -70,11 +70,18 @@ export default {
       this.badColorActivated = size < 20
       this.bonusActivated = size > 80
 
+      this.addLog({
+        size: size,
+        top: top,
+        left: left
+      }, 'round')
+
       this.roundStyle.height = this.roundStyle.width = `${size}px`
       this.roundStyle.margin = `${top}% ${left}%`
     },
-    addLog: function (msg) {
-      this.collection.unshift({id: this.collection.length, msg: msg})
+    addLog: function (msg, type) {
+      let typeOfMsg = type || 'user'
+      this.collection.unshift({id: this.collection.length / 2, msg: msg, type: typeOfMsg})
     }
   }
 }
