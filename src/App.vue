@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <game></game>
-    <score></score>
-    <player></player>
+    <game v-on:score="updateScore"></game>
+    <player class="text-center"></player>
+    <score :score=score class="text-center"></score>
   </div>
 </template>
 
@@ -13,10 +13,18 @@ import Player from './components/Player'
 
 export default {
   name: 'app',
+  data: function () {
+    return { score: 0 }
+  },
   components: {
     Game,
     Score,
     Player
+  },
+  methods: {
+    updateScore: function (score) {
+      this.score = score
+    }
   }
 }
 </script>

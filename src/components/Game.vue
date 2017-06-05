@@ -45,25 +45,26 @@ export default {
   watch: {
     click: function () {
       this.updateRound()
+      this.$emit('score', this.click)
     }
   },
   methods: {
     clickOnRound: function (event) {
       this.click++
-      this.addLog(`BRAVO ! (${this.click})`)
+      this.addLog(`BRAVO !`)
     },
     bonus: function (event) {
       if (this.bonusActivated) {
         this.click++
-        this.addLog(`PERFECT ! (${this.click}) +2`)
+        this.addLog(`PERFECT ! +2`)
       } else {
         this.click--
-        this.addLog(`???? (${this.click}) -1`)
+        this.addLog(`???? -1`)
       }
     },
     clickOnInterface: function (event) {
       this.click--
-      this.addLog(`HO NON :( (${this.click}) -1`)
+      this.addLog(`HO NON :( -1`)
     },
     start: function (event) {
       if (event.key === 'Enter') {
