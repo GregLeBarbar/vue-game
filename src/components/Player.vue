@@ -5,10 +5,10 @@
   Mais attention : ne pas rendre l'ajout de HTML dynamique pour des raisons de sécurité
   C'est vous qui ajouté du HTML 
   -->
-    <span v-html="welcomeMessage" v-hide></span>
-    <form v-hide @submit.prevent="setPlayer">
-      <input type="text" placeholder="Entrer votre nom" v-border:yellow />
-      <button type="submit">Jouer</button>
+    <span v-html="welcomeMessage" :class="{ hide: !player}"></span>
+    <form @submit.prevent="setPlayer" :class="{ hide: player}" class="form-inline">
+      <input type="text" placeholder="Entrer votre nom" class="form-control" />
+      <button type="submit" class="btn btn-default">Jouer</button>
     </form>
   </div>
 </template>
@@ -35,25 +35,13 @@ export default {
       }
       this.player = playerName
     }
-  },
-  directives: {
-    border: function (el, binding) {
-      el.style.borderColor = binding.arg
-    },
-    // creation de la directive custom 'hide'
-    hide: function (el, binding, vnode) {
-      let player = vnode.context.player
-      let isForm = vnode.tag === 'form'
-      if (isForm) {
-        el.style.display = player ? 'none' : 'block'
-      } else {
-        el.style.display = player ? 'block' : 'none'
-      }
-    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .hide {
+    display: none;
+  }
 </style>
