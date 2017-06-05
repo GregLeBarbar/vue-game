@@ -1,35 +1,53 @@
 <template>
   <!-- On est obligé d'avoir un div englobant -->
-  <div class="game">
+  <div class="game" v-on:click="clickOnInterface">
     <!-- j'ai remplacé la touche alt par la touche ctrl car alt ne fonctionnait pas -->
-    <span class="round" v-on:click="clickOnRound" v-on:click.ctrl="bonus"></span>
+    <span class="round" ref="round" v-on:click.stop="clickOnRound" v-on:click.ctrl.stop="bonus"></span>
   </div>
 </template>
 
 <script>
 export default {
   name: 'game',
+  data: function () {
+    return {
+      click: 0
+    }
+  },
   created: function () {
     // this.start est une méthode
     document.onkeydown = this.start
+    console.log(this)
+  },
+  watch: {
+    click: function () {
+      this.updateRound()
+    }
   },
   methods: {
     clickOnRound: function (event) {
-      let element = event.target
-      let size = Math.random() * (100 - 10) + 10
-      let top = Math.random() * (60 - 5) + 5
-      let left = Math.random() * (60 - 5) + 5
-      element.style.height = element.style.width = `${size}px`
-      element.style.margin = `${top}% ${left}%`
+      this.click++
     },
     bonus: function (event) {
       console.log('BONUS')
+      console.log(event)
+    },
+    clickOnInterface: function (event) {
+      console.log('INTERFACE')
       console.log(event)
     },
     start: function (event) {
       if (event.key === 'Enter') {
         console.log('START')
       }
+    },
+    updateRound: function () {
+      let element = this.$refs.round
+      let size = Math.random() * (100 - 10) + 10
+      let top = Math.random() * (60 - 5) + 5
+      let left = Math.random() * (60 - 5) + 5
+      element.style.height = element.style.width = `${size}px`
+      element.style.margin = `${top}% ${left}%`
     }
   }
 }
