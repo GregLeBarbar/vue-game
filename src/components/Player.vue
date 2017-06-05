@@ -6,7 +6,7 @@
   C'est vous qui ajouté du HTML 
   -->
     <span v-html="welcomeMessage" v-hide></span>
-    <form v-hide v-on:submit.prevent="setPlayer">
+    <form v-hide @submit.prevent="setPlayer">
       <input type="text" placeholder="Entrer votre nom" v-border:yellow />
       <button type="submit">Jouer</button>
     </form>

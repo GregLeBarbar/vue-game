@@ -1,8 +1,8 @@
 <template>
   <!-- On est obligé d'avoir un div englobant -->
-  <div class="game" v-on:click="clickOnInterface">
+  <div class="game" @click="clickOnInterface">
     <!-- j'ai remplacé la touche alt par la touche ctrl car alt ne fonctionnait pas -->
-    <span class="round" ref="round" v-on:click.stop="clickOnRound" v-on:click.ctrl.stop="bonus"></span>
+    <span class="round" ref="round" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
   </div>
 </template>
 
