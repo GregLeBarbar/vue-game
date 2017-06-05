@@ -1,8 +1,13 @@
 <template>
   <!-- On est obligé d'avoir un div englobant -->
-  <div class="game" @click="clickOnInterface">
-    <!-- j'ai remplacé la touche alt par la touche ctrl car alt ne fonctionnait pas -->
-    <span class="round" :style="roundStyle" :class="{bonus: bonusActivated, badColor: badColorActivated}" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
+  <div class="content">
+    <div class="game" @click="clickOnInterface">
+      <!-- j'ai remplacé la touche alt par la touche ctrl car alt ne fonctionnait pas -->
+      <span class="round" :style="roundStyle" :class="{bonus: bonusActivated, badColor: badColorActivated}" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
+    </div>
+    <div class="log">
+      <p v-for="item in collection">{{ item }}</p>
+    </div>
   </div>
 </template>
 
@@ -18,7 +23,8 @@ export default {
         margin: '20% 20%'
       },
       bonusActivated: false,
-      badColorActivated: false
+      badColorActivated: false,
+      collection: ['msg1', 'msg2', 'msg3']
     }
   },
   created: function () {
@@ -69,10 +75,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.content {
+  height: 500px;
+}
+.log {
+  width: 100%;
+  height: 50px;
+  background: #666;
+  display: block;
+  overflow: hidden;
+  padding: 6px;
+}
 .game {
   width: 100%;
-  height: 50%;
+  height: 90%;
   display: block;
   background: black;
 }
