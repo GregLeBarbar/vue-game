@@ -1,25 +1,28 @@
 <template>
-  <div class="score">
-    {{ score ? 'Votre score : ' + score : 'Entrez votre nom et appuyez sur entrée pour démarrer' }}
+  <div class="score" v-if="player">
+    {{ score }}
   </div>
 </template>
 
 <script>
 export default {
   name: 'score',
-  props: ['score']
+  props: ['score', 'player']
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .score {
-    display: inline-block;
-    height: 80px;
-    width: 150px;
-    font-size: 12pt;
+    display: block;
+    height: 50px;
+    width: 105px;
+    font-size: 19pt;
+    font-weight: 600;
     color: greenyellow;
     background: #666;
     padding: 5px;
+    line-height: 40px;
+    margin: 0 auto;
   }
 </style>

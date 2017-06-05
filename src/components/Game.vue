@@ -1,9 +1,9 @@
 <template>
   <!-- On est obligé d'avoir un div englobant -->
   <div class="content">
-    <div class="game" @click="clickOnInterface">
+    <div class="game" @click="clickOnInterface" :class="{ wait: !player }">
       <!-- j'ai remplacé la touche alt par la touche ctrl car alt ne fonctionnait pas -->
-      <span class="round" :style="roundStyle" :class="{bonus: bonusActivated, badColor: badColorActivated}" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
+      <span v-if="player" class="round" :style="roundStyle" :class="{bonus: bonusActivated, badColor: badColorActivated}" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
     </div>
     <div class="log">
       <p v-for="item in userLogs" v-if="item.type === 'user'">
@@ -16,6 +16,7 @@
 <script>
 export default {
   name: 'game',
+  props: ['player'],
   data: function () {
     return {
       click: 0,
@@ -50,25 +51,36 @@ export default {
   },
   methods: {
     clickOnRound: function (event) {
-      this.click++
+      setTimeout(this.updateRound, 1000)
+      this.updateClick(true)
       this.addLog(`BRAVO !`)
+    },
+    updateClick: function (increment) {
+      if (!this.player) {
+        return
+      }
+
+      if (increment) {
+        this.click++
+      } else {
+        this.click--
+      }
     },
     bonus: function (event) {
       if (this.bonusActivated) {
-        this.click++
+        this.updateClick(true)
         this.addLog(`PERFECT ! +2`)
       } else {
-        this.click--
+        this.updateClick()
         this.addLog(`???? -1`)
       }
     },
     clickOnInterface: function (event) {
-      this.click--
+      this.updateClick()
       this.addLog(`HO NON :( -1`)
     },
     start: function (event) {
       if (event.key === 'Enter') {
-        console.log('START')
       }
     },
     updateRound: function () {
@@ -89,6 +101,10 @@ export default {
       this.roundStyle.margin = `${top}% ${left}%`
     },
     addLog: function (msg, type) {
+      if (!this.player) {
+        return
+      }
+
       let typeOfMsg = type || 'user'
       this.collection.unshift({id: this.collection.length / 2, msg: msg, type: typeOfMsg})
     }
@@ -114,12 +130,15 @@ export default {
   height: 90%;
   display: block;
   background: black;
+  opacity: 1;
+  transition: opacity 1s;
 }
 
 .round {
   background: aliceblue;
   border-radius: 9999px;
   position: absolute;
+  transition: width 2s, height 2s, margin 0.5s;
 }
 
 .bonus {
@@ -128,6 +147,10 @@ export default {
 
 .badColor {
   background: #2A4747;
+}
+
+.wait {
+  opacity: 0.3;
 }
 
 </style>

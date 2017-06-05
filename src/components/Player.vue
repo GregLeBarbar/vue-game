@@ -34,6 +34,7 @@ export default {
         return
       }
       this.player = playerName
+      this.$emit('player')
     }
   }
 }
