@@ -6,7 +6,7 @@
       <span class="round" :style="roundStyle" :class="{bonus: bonusActivated, badColor: badColorActivated}" @click.stop="clickOnRound" @click.ctrl.stop="bonus"></span>
     </div>
     <div class="log">
-      <p v-for="item in collection" v-if="item.type === 'user'">
+      <p v-for="item in userLogs" v-if="item.type === 'user'">
         #{{ item.id }} - {{ item.msg }}
       </p>
     </div>
@@ -27,6 +27,14 @@ export default {
       bonusActivated: false,
       badColorActivated: false,
       collection: []
+    }
+  },
+  computed: {
+    userLogs: function () {
+      return this.collection.filter(
+        function (item) {
+          return item.type === 'user'
+        })
     }
   },
   created: function () {
